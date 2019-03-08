@@ -22,6 +22,10 @@ void insert_at_beginning(int x) {
 	tmp->next = phead->next;
 	// make head node to point to the new beginning
 	phead->next = tmp;
+	// if the new node is the new end, change ptail
+	if (tmp->next == nullptr) {
+		ptail = tmp;
+	}
 }
 
 void insert_at_ending(int x) {
@@ -35,7 +39,7 @@ void insert_at_ending(int x) {
 	ptail = tmp;
 }
 
-voidd insert_after(int x, int y) {
+void insert_after(int x, int y) {
 	// first find element x
 	Node *p = phead->next;
 	while (p != nullptr) {
@@ -83,6 +87,7 @@ void delete_node(int x) {
 			p = p->next;
 			q = q->next;
 		}
+	}
 }
 
 void print(int n) {
@@ -164,7 +169,7 @@ int main() {
 	insert_after(5,55);
 	delete_node(1);
 	print(3);
-	reverse_print(-1);
+	reverse_print(phead,-1);
 
 
 	return 0;
