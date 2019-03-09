@@ -127,27 +127,21 @@ void print(int n) {
 int _reverse_print(Node *node, int n) {
 	// if this node is the tail node, check if we should print the value and return
 	if (node->next == nullptr) {
-		if ((n==PRINT_WHOLE_LIST) || n>0) { // either we need to print the whole list, or we need to print at least one element
+		if ((n==PRINT_WHOLE_LIST) || n>0) { // either we need to print the whole list, or we need to print element more than the list size
 			printf("%i ", node->x);
-			// we printed once, return print count
 			return 1;
 		}
-		else { // we print nothing
+		else { // that is, n=0, we print nothing as this element is not printed
 			return 0;
 		}
 	}
-	else { // this is not the end of the tail, so we're not sure should we print it. Instead we require a return value to judge if we have printed enough time
-		// call recursively to request print next node and get the returned print times count
-		int times;
-		times = _reverse_print(node->next, n);
-		// if print the whole list or the print count is not enough, print current value
-		if ((n==PRINT_WHOLE_LIST) || (times<n)) {
-			printf("%i ", node->x);
-			return times+1;
-		}
-		else { // we have already printed enough times.
-			return times;
-		}
+	else { // this is not the end of the tail, so we only judge by n to decide whether we should print this node
+		// if n == 0 or n < -1, we do not need to print more element
+		if (n == 0 || n < -1) return 0;
+		// n > 0 or n = -1, we do the recursive, and print the value after return
+		_reverse_print(node->next, n-1);
+		printf("%i ", node->x);
+		return 1;
 	}
 }
 
@@ -230,4 +224,3 @@ int main() {
 	_cleanup();
 	return 0;
 }
-
