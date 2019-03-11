@@ -1,4 +1,11 @@
 #include <cstdio>
+#include <cstring>
+
+#define INSERT "insert_at_root"
+#define INSERT_AFTER "insert_after"
+#define PRINT "print"
+#define DELETE "delete"
+#define BUFFER_LEN 200
 
 // Struct Tree is implemented as a two dimension tree.
 // That is,the left child is its brother and the right child is its first(one of) children
@@ -188,18 +195,39 @@ void delete_node(int x) {
     _destroy(stack);
 }
 
+
+
+
 int main() {
-    insert_at_root(1);
-    insert_at_root(2);
-    insert_after(2,3);
-    insert_after(2,4);
-    insert_after(1,6);
-    print(Tree_root, -1);
-// Test Passed
-    delete_node(6);
-    delete_node(1);
-    print(Tree_root, -1);
-// Test Passed
+    char buff[BUFFER_LEN] = "";
+	int retcode = scanf("%s", buff);
+	while (retcode != EOF) {
+		if (strcmp(buff, INSERT) == 0) {
+			int tmp = 0;
+			scanf("%i", &tmp);
+			insert_at_root(tmp);
+		}
+		else if (strcmp(buff, INSERT_AFTER) == 0) {
+            int tmp1=0, tmp2=0;
+            scanf("%i %i", &tmp1, &tmp2);
+            insert_after(tmp1, tmp2);
+		}
+		else if (strcmp(buff, PRINT) == 0) {
+            int tmp = 0;
+            scanf("%i", &tmp);
+            print(Tree_root, tmp);
+		}
+		else if (strcmp(buff, DELETE) == 0) {
+			int tmp = 0;
+			scanf("%i", &tmp);
+			delete_node(tmp);
+		}
+		else {
+			break;
+		}
+		retcode = scanf("%s", buff);
+	}
+
     return  0;
 }
 
