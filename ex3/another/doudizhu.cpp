@@ -614,18 +614,35 @@ int main2() {
 	bool r(false);
 	while (true) {
 		if (pass1 && pass2) {
-			tmpCard.clear()
-			r = freeCards(Pai[round], tmpCard);
+			r = freeCards(Pai[round], tmpCard2);
 			cout << "Player " << round+1 << " plays: ";
-			print(tmpCard);
-			Pai[round] -= tmpCard;
-			cout << "Player " << round+1 << " holds: ";
-			print(Pai[round]);
-			if Pai[i].is_empty() {
-				cout << "Player " << round+1 << "Wins"
-				break;
+			print(tmpCard2);
+			Pai[round] -= tmpCard2;
+			pass1=pass2=false;
+		}
+		else {
+			r = cmpCards(Pai[round], tmpCard, tmpCard2);
+			if (r) {
+				cout << "Player " << round+1 << " plays: ";
+				print(tmpCard2);
+				Pai[round] -= tmpCard2;
+				pass1=pass2=false;
+			}
+			else {
+				cout << "Player " << round+1 << " pass." << endl;
+				if (pass1) pass2=true;
+				else pass1=true;
 			}
 		}
-
+		tmpCard2.clear();
+		if (Pai[i].is_empty()) {
+			cout << "Player " << round+1 << "Wins"
+			break;
+		}
+		else {
+			cout << "Player " << round+1 << " holds: ";
+			print(Pai[round]);
+		}
 	}
+	return 0;
 }
