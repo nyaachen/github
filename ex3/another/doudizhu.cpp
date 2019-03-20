@@ -30,7 +30,7 @@ class Card {
 	std::array<int,15> cnt;
 public:
 	Card() : cnt({0}) {}
-	~Card();
+	~Card() = default;
 	int &operator[](size_t i) {
 		return cnt[i];
 	}
@@ -71,7 +71,7 @@ public:
 };
 
 void print(const Card &c) {
-	for (int i=14; i>0; --i) {
+	for (int i=14; i>=0; --i) {
 		for (int j=0; j < c[i]; ++j) cout << CARD_STRING[i] << " ";
 	}
 	cout << endl;
@@ -228,7 +228,7 @@ bool find_a_sandai(const Card &myCard, const Card &targetCard, Card &result) {
 				if (cnt != 0) break;
 			}
 			else {
-				cnt = i;
+				cnt = targetCard[i];
 				if (find_3) break;
 			}
 		}
@@ -272,7 +272,7 @@ bool find_a_shunzi(const Card &myCard, const Card &targetCard, Card &result) {
 	size_t start(0);
 	int cnt(0);
 	for (size_t i=0; i < 13; ++i) {
-		if (c[i] != 0) {
+		if (targetCard[i] != 0) {
 			if (cnt == 0) start = i;
 			++cnt;
 		}
@@ -296,7 +296,7 @@ bool find_a_shunzi(const Card &myCard, const Card &targetCard, Card &result) {
 }
 bool find_a_shunzi(const Card &myCard, Card &result) {
 	int cnt(0);
-	for (size_t i=start+1; i < 13; ++i) {
+	for (size_t i=0; i < 13; ++i) {
 		if (myCard[i] > 0) {
 			result[i] = 1;
 			++cnt;
@@ -314,7 +314,7 @@ bool is_duizi(const Card &c) {
 	bool find(false), dup(false);
 	for (size_t i = 0; i < 13; ++i) {
 		if (c[i] != 0) {
-			if (!find) find=true;
+			if (!find && c[i] == 2) find=true;
 			else dup=true;
 		}
 	}
@@ -521,28 +521,28 @@ bool cmpCards(const Card &myCard, const Card &targetCard, Card &result) {
 	bool ok(false);
 	switch (t) {
 		case DANZHANG:
-		ok = find_a_danzhang(mycard, targetCard, result);
+		ok = find_a_danzhang(myCard, targetCard, result);
 		break;
 		case SHUNZI:
-		ok = find_a_shunzi(mycard, targetCard, result);
+		ok = find_a_shunzi(myCard, targetCard, result);
 		break;
 		case DUIZI:
-		ok = find_a_duizi(mycard, targetCard, result);
+		ok = find_a_duizi(myCard, targetCard, result);
 		break;
 		case LIANDUI:
-		ok = find_a_liandui(mycard, targetCard, result);
+		ok = find_a_liandui(myCard, targetCard, result);
 		break;
 		case SANDAI:
-		ok = find_a_sandai(mycard, targetCard, result);
+		ok = find_a_sandai(myCard, targetCard, result);
 		break;
 		case FEIJI:
-		ok = find_a_feiji(mycard, targetCard, result);
+		ok = find_a_feiji(myCard, targetCard, result);
 		break;
 		case SIDAIER:
-		ok = find_a_sidaier(mycard, targetCard, result);
+		ok = find_a_sidaier(myCard, targetCard, result);
 		break;
 		case ZHADAN:
-		ok = find_a_zhadan(mycard, targetCard, result);
+		ok = find_a_zhadan(myCard, targetCard, result);
 		if (!ok) {
 			result.clear();
 			return find_a_wangzha(myCard, targetCard, result);
@@ -564,7 +564,7 @@ bool cmpCards(const Card &myCard, const Card &targetCard, Card &result) {
 	return ok;
 }
 bool freeCards(const Card &myCard, Card &result) {
-	bool ok;
+	bool ok(false);
 	ok = find_a_shunzi(myCard, result);
 	if (!ok) {
 		result.clear();
@@ -582,20 +582,21 @@ bool freeCards(const Card &myCard, Card &result) {
 			}
 		}
 	}
+	return ok;
 }
 
-int main() {
+int main1() {
 	int n(0), m(0);
 	cin >> n >> m;
-	string i;
+	string s;
 	Card myCard, targetCard, result;
 	for (int i=0; i < n; ++i) {
-		cin >> i;
-		myCard.insert(i);
+		cin >> s;
+		myCard.insert(s);
 	}
 	for (int i=0; i < m; ++i) {
-		cin >> i;
-		targetCard.insert(i);
+		cin >> s;
+		targetCard.insert(s);
 	}
 	if (cmpCards(myCard, targetCard, result)) {
 		print(result);
@@ -607,8 +608,15 @@ int main() {
 }
 
 int main2() {
-	card Pai[3];
-	card tmpCard, tmpCard2;
+	Card Pai[3];
+	string tmp;
+	for (size_t i=0; i < 54; ++i) {
+		cin >> tmp;
+		if (i < 20) Pai[0].insert(tmp);
+		else if (i < 37) Pai[1].insert(tmp);
+		else Pai[2].insert(tmp);
+	}
+	Card tmpCard, tmpCard2;
 	bool pass1(true), pass2(true);
 	int round(0);
 	bool r(false);
@@ -619,6 +627,7 @@ int main2() {
 			print(tmpCard2);
 			Pai[round] -= tmpCard2;
 			pass1=pass2=false;
+			tmpCard = tmpCard2;
 		}
 		else {
 			r = cmpCards(Pai[round], tmpCard, tmpCard2);
@@ -627,6 +636,7 @@ int main2() {
 				print(tmpCard2);
 				Pai[round] -= tmpCard2;
 				pass1=pass2=false;
+				tmpCard = tmpCard2;
 			}
 			else {
 				cout << "Player " << round+1 << " pass." << endl;
@@ -635,14 +645,18 @@ int main2() {
 			}
 		}
 		tmpCard2.clear();
-		if (Pai[i].is_empty()) {
-			cout << "Player " << round+1 << "Wins"
+		if (Pai[round].is_empty()) {
+			cout << "Player " << round+1 << " Wins" << endl;
 			break;
 		}
 		else {
 			cout << "Player " << round+1 << " holds: ";
 			print(Pai[round]);
 		}
+		++round;
+		round %= 3;
 	}
 	return 0;
 }
+
+int main() {return main1();}
