@@ -65,10 +65,34 @@ namespace PUKE {
 		friend std::istream &operator>>(std::istream &is, Card &t);
 		friend std::ostream &operator<<(std::ostream &os, const Card &t);
 	};
+	// 类Card的友元声明
+	std::istream &operator>>(std::istream &is, Card &t);
+	std::ostream &operator<<(std::ostream &os, const Card &t);
+
+	// 一组卡牌的机内表示
+	namespace CardsLinkedList {
+		class Node {
+		private:
+			Card c;
+			size_t cnt;
+		public:
+			Node();
+			Node(const Card &card, size_t count);
+			~Node();
+			Card getCard() const;
+			Card setCard(const Card &card);
+			size_t getcnt() const;
+			size_t setcnt(size_t count);
+		}
+	}
 
 	class Cards {
 	private:
-		
+		std::array<CardsLinkedList::Node, 15> cardsarray;
+	public:
+		Cards();
+		~Cards();
+
 	}
 } // 名称空间结束
 

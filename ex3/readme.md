@@ -39,7 +39,7 @@ ADT Cards {
 		LineList(Card, count);
 	option:
 		addCard(Cards) 添加一张（组）卡牌
-		subCards 检查另一组卡牌是否是当前卡牌的子集的操作
+		is_subCards 检查另一组卡牌是否是当前卡牌的子集的操作
 		subCard(Cards) 取出一张（组）卡牌
 		countCard 返回卡牌数量
 }
