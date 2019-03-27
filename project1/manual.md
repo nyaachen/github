@@ -148,16 +148,16 @@ class SongAttrib
 有了SongAttrib类，就可以在此基础上构建歌曲Song类了。
 
 ---
-Song类被实现为对标准库`vector<SongAttrib>`类的派生。所有的歌曲操作都有函数与之对应。
-| 歌曲的基本操作 |        对应的函数实现         |
-| :------------: | :---------------------------: |
-|   歌曲的访问   | `SongAttrib &operator[](str)` |
-|                | `SongAttrib operator[](str)`  |
-|   歌曲的检索   |   `bool include_title(str)`   |
-|                |  `bool include_artist(str)`   |
-|                |  `bool include_pinyin(str)`   |
-|    歌曲排序    |            `bool `            |
-|                |                               |
-|                |                               |
-|                |                               |
-|                |                               |
+Song类被实现为对标准库`std::map<SongAttrib>`类的派生。所有的歌曲操作都有函数与之对应。
+| 歌曲的基本操作 |          对应的函数实现          |
+| :------------: | :------------------------------: |
+|   歌曲的访问   |  `SongAttrib &operator[](str)`   |
+|                |   `SongAttrib operator[](str)`   |
+|   歌曲的检索   |    `bool include_title(str)`     |
+|                |    `bool include_artist(str)`    |
+|                |    `bool include_pinyin(str)`    |
+|    歌曲排序    |      `bool smaller_(Song)`       |
+|                |    `bool smaller_rate(Song)`     |
+|                | `bool smaller_playedtimes(Song)` |
+|                |     `bool smaller_id(Song)`      |
+|                |   `bool smaller_pinyin(Song)`    |

@@ -1,5 +1,10 @@
+#ifndef SONG_H_
+#define SONG_H_
 #include <vector>
 #include <string>
+#include <map>
+#include <set>
+#include <stdexcept>
 
 namespace KTV {
 	namespace song {
@@ -26,17 +31,24 @@ namespace KTV {
 			std::string &getAttrib(const std::string &s);
 			std::string getAttrib(const std::string &s) const;
 		};
-		const std::vector<string> SONG_KEY {
+		class INVALID_KEY_ERROR : public std::out_of_range {
+		public:
+			INVALID_KEY_ERROR(const std::string &s) : out_of_range("Illegal Key Value " + s + " ! Check your program code !") {}
+		};
+		const std::set<std::string> SONG_KEY {
 			"ID",
 			"title",
 			"artist",
 			"pinyin",
-			"playedtimes",
-			"ratedtimes",
-			"ratesum",
-			"replaystatus"
+			"playedtimes", // int
+			"ratedtimes", // int
+			"ratesum", // double
+			"replaystatus" // 
 		};
-		class Song : public std::vector<SongAttrib> {
+		const std::string ID("ID"), TITLE("title"), ARTIST("artist"), PINYIN("pinyin"),
+						  PLAYEDTIMES("playedtimes"), RATEDTIMES("ratedtimes"), RATESUM("ratesum"),
+						  REPLAYSTATUS("replaystatus");
+		class Song : public std::map<std::string, SongAttrib> {
 		public:
 			Song();
 			// 歌曲的访问
@@ -55,10 +67,5 @@ namespace KTV {
 	}
 }
 
-// Test for different condition
-#include <iostream>
-using namespace std;
 
-int main() {
-	return 0;
-}
+#endif
