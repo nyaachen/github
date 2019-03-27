@@ -47,11 +47,11 @@ namespace KTV {
 			bool include_artist(const std::string &s) const;
 			bool include_pinyin(const std::string &s) const;
 			// 歌曲的排序
-			bool smaller_rate();
-			bool smaller_playedtimes();
-			bool smaller_id()
-			bool smaller_pinyin();
-		}
+			bool smaller_rate(const Song &s) const;
+			bool smaller_playedtimes(const Song &s) const;
+			bool smaller_id(const Song &s) const;
+			bool smaller_pinyin(const Song &s) const;
+		};
 	}
 }
 
