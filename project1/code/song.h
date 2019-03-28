@@ -1,7 +1,10 @@
 #ifndef SONG_H_
 #define SONG_H_
+
+#include <iostream>
 #include <vector>
 #include <string>
+#include <sstream>
 #include <map>
 #include <set>
 #include <stdexcept>
@@ -12,6 +15,15 @@ namespace KTV {
 			STRING,
 			DOUBLE,
 			INT
+		};
+		const std::vector<std::string> _song_attrib_str {
+			"std::string",
+			"double",
+			"int"
+		};
+		class Unexcepted_Attribute_type :public std::runtime_error {
+		public:
+			Unexcepted_Attribute_type(const std::string &a, const std::string &b);
 		};
 		class SongAttrib {
 		private:
@@ -24,35 +36,46 @@ namespace KTV {
 			SongAttrib(int i);
 			SongAttrib(double d);
 			SongAttrib(const std::string &s);
-			_song_attrib_type value_type() const;
-			int &getAttrib(int i);
-			int getAttrib(int i) const;
-			double &getAttrib(double d);
-			double getAttrib(double d) const;
-			std::string &getAttrib(const std::string &s);
-			std::string getAttrib(const std::string &s) const;
+			SongAttrib &operator=(int i);
+			SongAttrib &operator=(double d);
+			SongAttrib &operator=(const std::string &s);
+			int &i();
+			double &d();
+			std::string &str();
+			operator int();
+			operator double();
+			operator std::string();
+			std::string print() const;
 		};
 		class INVALID_KEY_ERROR : public std::out_of_range {
 		public:
-			INVALID_KEY_ERROR(const std::string &s) : out_of_range("Illegal Key Value " + s + " ! Check your program code !") {}
+			INVALID_KEY_ERROR(const std::string &s);
 		};
 		const std::set<std::string> SONG_KEY {
-			"ID",
-			"title",
-			"artist",
-			"pinyin",
+			"id", // string
+			"title", // string
+			"artist", // string
+			"pinyin", // string
+			// below are item not printed
 			"playedtimes", // int
 			"ratedtimes", // int
 			"ratesum", // double
 			"replaystatus" // int
 		};
-		const std::string ID("ID"), TITLE("title"), ARTIST("artist"), PINYIN("pinyin"),
+		const std::string ID("id"), TITLE("title"), ARTIST("artist"), PINYIN("pinyin"),
 						  PLAYEDTIMES("playedtimes"), RATEDTIMES("ratedtimes"), RATESUM("ratesum"),
 						  REPLAYSTATUS("replaystatus");
 		class Song : public std::map<std::string, SongAttrib> {
 		public:
 			Song();
 			// 歌曲的访问
+			std::string id() const;
+			std::string &title();
+			std::string title() const;
+			std::string &artist();
+			std::string artist() const;
+			std::string &pinyin();
+			std::string pinyin() const;
 			SongAttrib &operator[](const std::string &s);
 			SongAttrib operator[](const std::string &s) const;
 
