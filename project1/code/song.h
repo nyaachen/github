@@ -24,6 +24,7 @@ namespace KTV {
 			SongAttrib(int i);
 			SongAttrib(double d);
 			SongAttrib(const std::string &s);
+			_song_attrib_type value_type() const;
 			int &getAttrib(int i);
 			int getAttrib(int i) const;
 			double &getAttrib(double d);
@@ -43,7 +44,7 @@ namespace KTV {
 			"playedtimes", // int
 			"ratedtimes", // int
 			"ratesum", // double
-			"replaystatus" // 
+			"replaystatus" // int
 		};
 		const std::string ID("ID"), TITLE("title"), ARTIST("artist"), PINYIN("pinyin"),
 						  PLAYEDTIMES("playedtimes"), RATEDTIMES("ratedtimes"), RATESUM("ratesum"),
@@ -54,6 +55,7 @@ namespace KTV {
 			// 歌曲的访问
 			SongAttrib &operator[](const std::string &s);
 			SongAttrib operator[](const std::string &s) const;
+
 			// 歌曲的检索
 			bool include_title(const std::string &s) const;
 			bool include_artist(const std::string &s) const;

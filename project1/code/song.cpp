@@ -6,6 +6,7 @@ namespace KTV {
         SongAttrib::SongAttrib(int i) : Type(INT), ival(i), dval(0), sval("") {}
         SongAttrib::SongAttrib() : Type(INT), ival(0), dval(0), sval("") {}
         SongAttrib::SongAttrib() : Type(INT), ival(0), dval(0), sval("") {}
+        _song_attrib_type SongAttrib::value_type() const { return Type;}
         int &SongAttrib::getAttrib(int i) { return ival;}
         int SongAttrib::getAttrib(int i) const { return ival;}
         double &SongAttrib::getAttrib(double d) { return dval;}
@@ -32,6 +33,14 @@ namespace KTV {
         bool Song::include_pinyin(const std::string &s) const {
             return s == operator[](PINYIN).getAttrib(s);
         }
-
+        bool Song::smaller_rate(const Song &s) const {
+            double current_rate = operator[](RATESUM).getAttrib(current_rate) / operator[](RATEDTIMES).getAttrib(current_rate);
+            double c_rate = s[RATESUM].getAttrib(c_rate) / s[RATEDTIMES].getAttrib(c_rate);
+            return current_rate < c_rate;
+        }
+        bool Song::smaller_playedtimes(const Song &s) const {
+            int count = operator[](PLAYEDTIMES).getAttrib(count);
+            return count < s[PLAYEDTIMES].getAttrib(count);
+        }
     }
 }
