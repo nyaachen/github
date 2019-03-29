@@ -11,73 +11,26 @@
 
 namespace KTV {
 	namespace song {
-		enum _song_attrib_type {
-			STRING,
-			DOUBLE,
-			INT
-		};
-		const std::vector<std::string> _song_attrib_str {
-			"std::string",
-			"double",
-			"int"
-		};
-		class Unexcepted_Attribute_type :public std::runtime_error {
-		public:
-			Unexcepted_Attribute_type(const std::string &a, const std::string &b);
-		};
-		class SongAttrib {
+		class Song {
 		private:
-			_song_attrib_type Type;
-			int ival;
-			double dval;
-			std::string sval;
-		public:
-			SongAttrib();
-			SongAttrib(int i);
-			SongAttrib(double d);
-			SongAttrib(const std::string &s);
-			SongAttrib &operator=(int i);
-			SongAttrib &operator=(double d);
-			SongAttrib &operator=(const std::string &s);
-			int &i();
-			double &d();
-			std::string &str();
-			operator int();
-			operator double();
-			operator std::string();
-			std::string print() const;
-		};
-		class INVALID_KEY_ERROR : public std::out_of_range {
-		public:
-			INVALID_KEY_ERROR(const std::string &s);
-		};
-		const std::set<std::string> SONG_KEY {
-			"id", // string
-			"title", // string
-			"artist", // string
-			"pinyin", // string
-			// below are item not printed
-			"playedtimes", // int
-			"ratedtimes", // int
-			"ratesum", // double
-			"replaystatus" // int
-		};
-		const std::string ID("id"), TITLE("title"), ARTIST("artist"), PINYIN("pinyin"),
-						  PLAYEDTIMES("playedtimes"), RATEDTIMES("ratedtimes"), RATESUM("ratesum"),
-						  REPLAYSTATUS("replaystatus");
-		class Song : public std::map<std::string, SongAttrib> {
+			std::string _title, _artist, _pinyin; // 三大基本属性。以下为额外属性
+			int id;
+			int replayedtime;
+			int replaystatus;
+			std::vector<double> rates;
+			// 用于播放列表的链接指针
+			Song *playlistprev, *playlistnext;
 		public:
 			Song();
-			// 歌曲的访问
-			std::string id() const;
+			// 歌曲的访问之固定属性
 			std::string &title();
 			std::string title() const;
 			std::string &artist();
 			std::string artist() const;
 			std::string &pinyin();
 			std::string pinyin() const;
-			SongAttrib &operator[](const std::string &s);
-			SongAttrib operator[](const std::string &s) const;
+			// 歌曲的访问之扩展属性
+			// TODO
 
 			// 歌曲的检索
 			bool include_title(const std::string &s) const;
