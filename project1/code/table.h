@@ -14,9 +14,9 @@ namespace KTV {
             // 歌曲检索
             Table view_subset() const;
             // 歌曲插入
-            bool insert(const song::Song &s);
+            bool push(const song::Song &s);
             // 歌曲删除
-            bool delete();
+            bool pop(size_t i); // TODO 优化这一函数实现
             // 歌曲排序
             Table order_by_() const;
             // 歌曲遍历： 请使用迭代器或下标

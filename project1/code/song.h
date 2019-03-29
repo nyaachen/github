@@ -5,9 +5,6 @@
 #include <vector>
 #include <string>
 #include <sstream>
-#include <map>
-#include <set>
-#include <stdexcept>
 
 namespace KTV {
 	namespace song {
@@ -21,7 +18,7 @@ namespace KTV {
 			// 用于播放列表的链接指针
 			Song *playlistprev, *playlistnext;
 		public:
-			Song();
+			Song(); // TODO 更多的构造函数
 			// 歌曲的访问之固定属性
 			std::string &title();
 			std::string title() const;
